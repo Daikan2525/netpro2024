@@ -25,13 +25,6 @@ public class TaskServerWhile {
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
             TaskObject object = (TaskObject) ois.readObject();
-
-            if(object.number< 2){
-                System.err.println("1以下の整数が入力されたため、サーバを停止します");
-                // socketの終了。
-                socket.close();
-                server.close();
-            }
             
             object.exec();
 
@@ -40,9 +33,16 @@ public class TaskServerWhile {
             oos.writeObject(object);
             oos.flush();
 
-            // close処理
-            oos.close();
-            ois.close();
+            if(object.number< 2){
+                System.err.println("1以下の整数が入力されたため、サーバを停止します");
+                // socketの終了。
+                // close処理
+                oos.close();
+                ois.close();
+                socket.close();
+                server.close();
+            }
+            
 
         } // エラーが発生したらエラーメッセージを表示してプログラムを終了する
         catch (BindException be) {

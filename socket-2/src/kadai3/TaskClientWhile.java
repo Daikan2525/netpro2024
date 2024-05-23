@@ -20,6 +20,7 @@ public class TaskClientWhile {
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             
             while(true){
+                
                 System.out.println("整数値を入力してください ↓");
                 int number = Integer.valueOf(scanner.next());
 
@@ -29,21 +30,22 @@ public class TaskClientWhile {
                 oos.writeObject(object);
                 oos.flush();
 
-                if(number < 2){
-                    System.out.println("1以下の整数値が入力されたため終了します");
-                    break;
-                }
-
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
                 TaskObject backObject = (TaskObject) ois.readObject();
 
                 System.out.println("サーバからの解答は" + backObject.getResult());
-
-                ois.close();
+                
+                if(number < 2){
+                    System.out.println("1以下の整数値が入力されたため終了します");
+                    ois.close();
+                    oos.close();
+                    break;
+                }
             }
             
-            oos.close();
+            
+            
             scanner.close();
             socket.close();
 
