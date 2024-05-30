@@ -16,6 +16,15 @@ public class Kadai6Client {
             // 送信パケットを作成
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, 9876);
             socket.send(sendPacket);
+
+            byte[] receiveData = new byte[1024];
+
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            socket.receive(receivePacket);
+
+            String receiveMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
+            System.out.println("受信: " + receiveMessage);
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -18,7 +18,11 @@ public class Kadai6Server {
                 String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 System.out.println("受信: " + message);
 
-                
+                String answer = message.toUpperCase();
+                byte[] sendData = answer.getBytes();
+
+                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(), receivePacket.getPort());
+                socket.send(sendPacket);
             }
         } catch (Exception e) {
             e.printStackTrace();
